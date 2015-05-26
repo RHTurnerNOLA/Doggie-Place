@@ -2,7 +2,7 @@
 
 <h1>Listing Dogs</h1>
 
-<table>
+<!-- <table>
   <thead>
     <tr>
       <th>Owner</th>
@@ -16,24 +16,32 @@
     </tr>
   </thead>
 
-  <tbody>
-    <% @dogs.each do |dog| %>
-      <tr>
-        <td><%= dog.owner.last_first %></td>
-        <td><%= dog.name %></td>
-        <td><%= dog.breed.breed %></td>
-        <td><%= dog.dob %></td>
-        <td><%= dog.vet %></td>
-        <td><%= dog.vet_phone %></td>
-        <td><%= dog.in_daycare %></td>
-        <td><%= link_to 'Show', dog %></td>
-        <td><%= link_to 'Edit', edit_dog_path(dog) %></td>
-        <td><%= link_to 'Destroy', dog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <tbody> -->
 
+  <div class="row">
+    <% @dogs.each do |dog| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= dog.name %> <%= dog.owner.last_first %></h3>
+        </div>
+        <div class="panel-body">
+          <%= dog.breed.breed %>
+          <%= image_tag dog.avatar.url(:medium), class: "img-responsive" %>
+        </div>
+        <div class="panel-footer">
+          In daycare? <%= dog.in_daycare %>
+          <%= link_to 'Show', dog %>
+          <%= link_to 'Edit', edit_dog_path(dog) %>
+          <%= link_to 'Destroy', dog, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      </div>
+    </div>
+
+
+    <% end %>
+<!--   </tbody>
+</table>
+ -->
 <br>
 
 <%= link_to 'New Dog', new_dog_path %>
