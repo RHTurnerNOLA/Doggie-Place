@@ -4,7 +4,21 @@ class DogsController < ApplicationController
   # GET /dogs
   # GET /dogs.json
   def index
-    @dogs = Dog.all
+    @owners = Owner.all
+    owner_ids = params[:owner_ids]
+
+    # TODO: Make flash notice dissappear upon a new search.
+    if params[:search]
+      @dogs = Dog.where("name LIKE '%#{params[:search]}%'")
+      if @dogs.size.zero?
+        flash.now[:notice] = 'No result found.'
+        @dogs = Dog.all
+      end
+    elsif params[:owner_ids]
+      @dogs = Dog.where(owner_id: params[:owner_ids].split(","))
+    else
+      @dogs = Dog.all
+    end
   end
 
   # GET /dogs/1
@@ -42,7 +56,7 @@ class DogsController < ApplicationController
   def update
     respond_to do |format|
       if @dog.update(dog_params)
-        format.html { redirect_to @dog, notice: 'Dog was successfully updated.' }
+        format.html { redirect_to dogs_path, notice: 'Dog was successfully updated.' }
         format.json { render :show, status: :ok, location: @dog }
       else
         format.html { render :edit }
